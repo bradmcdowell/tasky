@@ -12,6 +12,10 @@ FROM alpine:3.17.0 as release
 WORKDIR /app
 COPY --from=build  /go/src/tasky/tasky .
 COPY --from=build  /go/src/tasky/assets ./assets
+COPY wizexercise.txt /app/wizexercise.txt
+ARG MONGO_CONNECTION_STRING
+ENV MONGODB_URI=${MONGO_CONNECTION_STRING}
+ENV SECRET_KEY=secret123
 EXPOSE 8080
 ENTRYPOINT ["/app/tasky"]
 
