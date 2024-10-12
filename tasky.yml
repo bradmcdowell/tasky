@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tasky-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tasky
+  template:
+    metadata:
+      labels:
+        app: tasky
+    spec:
+      containers:
+      - name: tasky
+        image: ghcr.io/bradmcdowell/tasky:latest
+        ports:
+        - containerPort: 8080
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: tasky-secrets
+              key: MONGODB_URI
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: tasky-secrets
+              key: SECRET_KEY
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tasky-service
+spec:
+  selector:
+    app: tasky
+  ports:
+    - port: 8080
+      targetPort: 80
+  type: LoadBalancer

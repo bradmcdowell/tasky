@@ -1,0 +1,37 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: tasky-cluster          # Name of the EKS cluster
+  region: ap-southeast-2             # AWS region where the cluster will be created
+  version: "1.30"               # EKS version
+
+vpc:
+  id: vpc-0cf83ba8c815616b5     # Replace with your existing VPC ID
+  subnets:
+    private:
+      ap-southeast-2a:
+        id: subnet-0866dc1550394c538  # Replace with your private subnet ID in this AZ
+      ap-southeast-2b:
+        id: subnet-0c0d1c4ffcd9f0ebb  # Replace with your private subnet ID in this AZ
+      # ap-southeast-2c:
+      #   id: subnet-0ad5555d3f584265e  # Replace with your private subnet ID in this AZ
+
+nodeGroups:
+  - name: tasky-ng-1                   # Name of the node group
+    instanceType: t2.micro      # Instance type for worker nodes
+    desiredCapacity: 2           # Desired number of instances
+    minSize: 2                   # Minimum number of instances
+    maxSize: 3                   # Maximum number of instances
+    volumeSize: 20               # Root volume size in GB
+    ssh:
+      allow: true                # Allow SSH access to the nodes
+      publicKeyName: DB_Key       # Name of the SSH key in AWS
+    privateNetworking: true 
+
+iam:
+  withOIDC: true                 # Enable OIDC for IAM roles
+
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["audit", "authenticator"]  # Enable cluster logging for specific types
