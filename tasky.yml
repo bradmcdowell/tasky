@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,16 +18,11 @@ spec:
         image: ghcr.io/bradmcdowell/tasky:latest
         ports:
         - containerPort: 8080
+        env:  # Define environment variables here
         - name: MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              name: tasky-secrets
-              key: MONGODB_URI
+          value: "mongodb://<USERNAME>:<pass>@ip-172-31-13-143.ap-southeast-2.compute.internal:27017"
         - name: SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: tasky-secrets
-              key: SECRET_KEY
+          value: "SomethingSuperSecret"
 
 ---
 apiVersion: v1
@@ -38,5 +34,5 @@ spec:
     app: tasky
   ports:
     - port: 8080
-      targetPort: 80
+      targetPort: 8080  # Match this with the containerPort
   type: LoadBalancer
