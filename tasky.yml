@@ -20,7 +20,7 @@ spec:
         - containerPort: 8080
         env:  # Define environment variables here
         - name: MONGODB_URI
-          value: "mongodb://<USERNAME>:<pass>@ip-172-31-13-143.ap-southeast-2.compute.internal:27017"
+          value: "mongodb://taskyadmin:<PASSWORD_HERE>g@ip-172-31-13-143.ap-southeast-2.compute.internal:27017"
         - name: SECRET_KEY
           value: "SomethingSuperSecret"
 
@@ -33,6 +33,6 @@ spec:
   selector:
     app: tasky
   ports:
-    - port: 8080
+    - port: 80 # This is the external port of the Load Balancer
       targetPort: 8080  # Match this with the containerPort
   type: LoadBalancer

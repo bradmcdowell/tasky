@@ -14,8 +14,6 @@ vpc:
         id: subnet-0866dc1550394c538  # Replace with your private subnet ID in this AZ
       ap-southeast-2b:
         id: subnet-0c0d1c4ffcd9f0ebb  # Replace with your private subnet ID in this AZ
-      # ap-southeast-2c:
-      #   id: subnet-0ad5555d3f584265e  # Replace with your private subnet ID in this AZ
 
 nodeGroups:
   - name: tasky-ng-1                   # Name of the node group
