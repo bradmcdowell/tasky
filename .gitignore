@@ -5,7 +5,6 @@
 *.so
 *.dylib
 *.env
-tasky.yml
 # Test binary, built with `go test -c`
 *.test
 

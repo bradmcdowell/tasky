@@ -13,16 +13,24 @@ spec:
       labels:
         app: tasky
     spec:
+      serviceAccountName: tasky-sa
+      automountServiceAccountToken: true
       containers:
       - name: tasky
         image: ghcr.io/bradmcdowell/tasky:latest
         ports:
         - containerPort: 8080
-        env:  # Define environment variables here
+        env:
         - name: MONGODB_URI
-          value: "mongodb://taskyadmin:<PASSWORD_HERE>g@ip-172-31-13-143.ap-southeast-2.compute.internal:27017"
+          valueFrom:
+            secretKeyRef:
+              name: tasky-secret
+              key: MONGODB_URI
         - name: SECRET_KEY
-          value: "SomethingSuperSecret"
+          valueFrom:
+            secretKeyRef:
+              name: tasky-secret
+              key: SECRET_KEY
 
 ---
 apiVersion: v1
@@ -35,4 +43,5 @@ spec:
   ports:
     - port: 80 # This is the external port of the Load Balancer
       targetPort: 8080  # Match this with the containerPort
+     # nodePort: 32080
   type: LoadBalancer
