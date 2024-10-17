@@ -45,3 +45,19 @@ spec:
       targetPort: 8080  # Match this with the containerPort
      # nodePort: 32080
   type: LoadBalancer
+
+
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: tasky-service
+# spec:
+#   selector:
+#     app: tasky
+#   ports:
+#     - port: 8080
+#       targetPort: 8080
+#   type: ClusterIP
+
+  
